@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aide — FST PRODUCTION</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #17120c;
+    --card: #241b12;
+    --card-hover: #2c2117;
+    --amber: #e2841f;
+    --amber-deep: #b85f10;
+    --text: #f3ead9;
+    --muted: #a08a70;
+    --line: #33291b;
+    --green: #3fae5c;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+  header{
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap: 12px;
+  }
+  header a.back{
+    color: var(--muted);
+    text-decoration:none;
+    font-size: 20px;
+    line-height:1;
+  }
+  header h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  main{ padding: 20px; }
+  .section-title{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 26px 0 10px;
+  }
+  .section-title:first-child{ margin-top: 0; }
+  .link-card{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px;
+    text-decoration: none;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .link-card:active{ background: var(--card-hover); }
+  .link-icon{
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size: 17px;
+    flex-shrink:0;
+  }
+  .link-icon.whatsapp{ background: rgba(63,174,92,.18); color: var(--green); }
+  .link-icon.elevage{ background: rgba(226,132,31,.18); color: var(--amber); }
+  .link-icon.vpn{ background: rgba(226,132,31,.18); color: var(--amber); }
+  .link-text .t{ font-size: 14px; font-weight: 600; }
+  .link-text .s{ font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .stars{
+    display:flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 6px 0 14px;
+  }
+  .stars button{
+    background:none; border:none;
+    font-size: 30px;
+    color: var(--line);
+    cursor: pointer;
+    padding: 0;
+    line-height:1;
+  }
+  .stars button.filled{ color: var(--amber); }
+  textarea{
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    padding: 10px;
+    min-height: 90px;
+    resize: vertical;
+  }
+  textarea:focus{ outline: none; border-color: var(--amber); }
+  .btn-row{
+    display:flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  button.action{
+    flex:1;
+    border: none;
+    border-radius: 8px;
+    padding: 11px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+  }
+  button.action.primary{ background: var(--amber); color: #17120c; }
+  button.action.secondary{ background: var(--bg); border: 1px solid var(--line); color: var(--text); }
+  .hint{
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+  .saved-list{ margin-top: 14px; }
+  .saved-item{
+    border-top: 1px solid var(--line);
+    padding: 10px 0;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .saved-item .stars-mini{ color: var(--amber); font-size: 12px; margin-bottom: 3px; }
+  .confirm{
+    font-size: 12.5px;
+    color: var(--green);
+    margin-top: 8px;
+    display:none;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back">←</a>
+  <h1>Aide & Contact</h1>
+</header>
+
+<main>
+  <div class="section-title">Nous contacter</div>
+  <a class="link-card" href="https://wa.me/22605568256" target="_blank">
+    <div class="link-icon whatsapp">💬</div>
+    <div class="link-text">
+      <div class="t">Écrire sur WhatsApp</div>
+      <div class="s">Réponse directe de FST PRODUCTION</div>
+    </div>
+  </a>
+
+  <div class="section-title">Rejoindre nos groupes</div>
+  <a class="link-card" href="https://chat.whatsapp.com/DrnRSS1zY6tCtlqUWBzDhM" target="_blank">
+    <div class="link-icon elevage">🐐</div>
+    <div class="link-text">
+      <div class="t">Groupe Élevage</div>
+      <div class="s">Actus et échanges élevage</div>
+    </div>
+  </a>
+  <a class="link-card" href="https://chat.whatsapp.com/DiFMZphEQrjFtlm3hFv6Lj" target="_blank">
+    <div class="link-icon vpn">🔒</div>
+    <div class="link-text">
+      <div class="t">Groupe VPN</div>
+      <div class="s">Accès, astuces et support VPN</div>
+    </div>
+  </a>
+
+  <div class="section-title">Note l'application</div>
+  <div class="card">
+    <div class="stars" id="stars">
+      <button data-v="1">★</button>
+      <button data-v="2">★</button>
+      <button data-v="3">★</button>
+      <button data-v="4">★</button>
+      <button data-v="5">★</button>
+    </div>
+    <div class="btn-row">
+      <button class="action primary" id="send-rating">Envoyer ma note</button>
+    </div>
+    <div class="confirm" id="rating-confirm">Merci pour ta note ! 🙏</div>
+  </div>
+
+  <div class="section-title">Ton avis nous aide à progresser</div>
+  <div class="card">
+    <textarea id="comment" placeholder="Dis-nous ce qu'on peut améliorer..."></textarea>
+    <div class="btn-row">
+      <button class="action secondary" id="save-comment">Enregistrer</button>
+      <button class="action primary" id="whatsapp-comment">Envoyer sur WhatsApp</button>
+    </div>
+    <div class="hint">« Enregistrer » garde ton commentaire dans l'app pour qu'on le consulte plus tard. « Envoyer sur WhatsApp » te permet de nous l'envoyer directement, tout de suite.</div>
+    <div class="confirm" id="comment-confirm">Commentaire enregistré, merci ! 🙏</div>
+    <div class="saved-list" id="saved-list"></div>
+  </div>
+</main>
+
+<script>
+  const WHATSAPP_NUMBER = "22605568256";
+
+  let currentRating = 0;
+  const starButtons = document.querySelectorAll('#stars button');
+  starButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentRating = parseInt(btn.dataset.v);
+      starButtons.forEach(b => {
+        b.classList.toggle('filled', parseInt(b.dataset.v) <= currentRating);
+      });
+    });
+  });
+
+  document.getElementById('send-rating').addEventListener('click', () => {
+    if (currentRating === 0) return;
+    const ratings = JSON.parse(localStorage.getItem('fst_ratings') || '[]');
+    ratings.push({ note: currentRating, date: new Date().toISOString() });
+    localStorage.setItem('fst_ratings', JSON.stringify(ratings));
+    document.getElementById('rating-confirm').style.display = 'block';
+    setTimeout(() => document.getElementById('rating-confirm').style.display = 'none', 3000);
+  });
+
+  function loadComments(){
+    const list = document.getElementById('saved-list');
+    const comments = JSON.parse(localStorage.getItem('fst_comments') || '[]');
+    list.innerHTML = '';
+    comments.slice().reverse().forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'saved-item';
+      div.textContent = c.text;
+      list.appendChild(div);
+    });
+  }
+
+  document.getElementById('save-comment').addEventListener('click', () => {
+    const textEl = document.getElementById('comment');
+    const text = textEl.value.trim();
+    if (!text) return;
+    const comments = JSON.parse(localStorage.getItem('fst_comments') || '[]');
+    comments.push({ text, date: new Date().toISOString() });
+    localStorage.setItem('fst_comments', JSON.stringify(comments));
+    textEl.value = '';
+    document.getElementById('comment-confirm').style.display = 'block';
+    setTimeout(() => document.getElementById('comment-confirm').style.display = 'none', 3000);
+    loadComments();
+  });
+
+  document.getElementById('whatsapp-comment').addEventListener('click', () => {
+    const text = document.getElementById('comment').value.trim();
+    if (!text) return;
+    const msg = encodeURIComponent("Avis sur l'app FST PRODUCTION : " + text);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+  });
+
+  loadComments();
+</script>
+
+</body>
+</html>

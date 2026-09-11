@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">FST PRODUCTION</string>
+    <string name="title_activity_main">FST PRODUCTION</string>
+    <string name="package_name">com.fstproduction.app</string>
+    <string name="custom_url_scheme">com.fstproduction.app</string>
+</resources>
