@@ -465,12 +465,8 @@
 
   async function loadTracksFromFolder(){
     try {
-      const res = await fetch(`${AUDIO_FOLDER}/`);
-      const html = await res.text();
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      const links = Array.from(doc.querySelectorAll('a'))
-        .map(a => a.getAttribute('href'))
-        .filter(href => href && /\.(mp3|m4a|wav|ogg|flac)$/i.test(href));
+      const res = await fetch('tracks.json');
+      const links = await res.json();
 
       tracks = links.map(href => {
         const clean = cleanName(href);
