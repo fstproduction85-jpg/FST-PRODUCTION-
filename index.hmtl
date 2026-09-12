@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FST PRODUCTION — Démo fonctionnalités</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#17120c; --card:#241b12; --card-hover:#2c2117;
+    --amber:#e2841f; --amber-deep:#b85f10; --text:#f3ead9;
+    --muted:#a08a70; --line:#33291b; --green:#3fae5c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    background:var(--bg); color:var(--text); font-family:'Inter',sans-serif;
+    max-width:480px; margin:0 auto; min-height:100vh;
+    display:flex; flex-direction:column; padding-bottom:64px; position:relative;
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+  .badge-demo{
+    position:sticky; top:0; z-index:50; background:var(--amber);
+    color:#17120c; font-size:11px; font-weight:600; text-align:center;
+    padding:5px; letter-spacing:.02em;
+  }
+  .screen{display:none; padding:16px 18px 20px; flex:1;}

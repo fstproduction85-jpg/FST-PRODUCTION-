@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FST PRODUCTION — Démo fonctionnalités</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#17120c; --card:#241b12; --card-hover:#2c2117;
+    --amber:#e2841f; --amber-deep:#b85f10; --text:#f3ead9;
+    --muted:#a08a70; --line:#33291b; --green:#3fae5c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    background:var(--bg); color:var(--text); font-family:'Inter',sans-serif;
+    max-width:480px; margin:0 auto; min-height:100vh;
+    display:flex; flex-direction:column; padding-bottom:64px; position:relative;
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+  .badge-demo{
+    position:sticky; top:0; z-index:50; background:var(--amber);
+    color:#17120c; font-size:11px; font-weight:600; text-align:center;
+    padding:5px; letter-spacing:.02em;
+  }
+  .screen{display:none; padding:16px 18px 20px; flex:1;}
+  .screen.active{display:block;}
+  .top{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .top h2{font-size:19px; font-weight:700;}
+  .icon-btn{
+    background:var(--card); border:1px solid var(--line); color:var(--text);
+    width:34px; height:34px; border-radius:9px; display:flex;
+    align-items:center; justify-content:center; font-size:15px; cursor:pointer;
+  }
+  .search-bar{
+    display:flex; align-items:center; gap:8px; background:var(--card);
+    border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+    margin-bottom:14px; font-size:13.5px; color:var(--muted);
+  }
+  .chips{display:flex; gap:8px; overflow-x:auto; margin-bottom:14px; padding-bottom:2px;}
+  .chips::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:0 0 auto; background:var(--card); border:1px solid var(--line);
+    border-radius:999px; padding:7px 14px; font-size:12px; color:var(--muted);
+    white-space:nowrap;
+  }
+  .chip.active{background:var(--amber); color:#17120c; border-color:var(--amber); font-weight:600;}
+
+  .section-title{font-size:14px; font-weight:700; margin:18px 0 10px; display:flex; justify-content:space-between; align-items:center;}
+  .section-title span.link{font-size:11.5px; color:var(--amber); font-weight:500;}
+
+  .hero-artist{
+    background:linear-gradient(135deg,var(--amber-deep),var(--amber));
+    border-radius:14px; padding:18px; position:relative; overflow:hidden; margin-bottom:6px;
+  }
+  .hero-artist .tag{font-size:10.5px; font-weight:700; color:#17120c; opacity:.75; letter-spacing:.03em;}
+  .hero-artist h3{color:#17120c; font-size:20px; margin-top:4px;}
+  .hero-artist p{color:#3a2a12; font-size:12px; margin-top:2px;}
+
+  .row-scroll{display:flex; gap:10px; overflow-x:auto; padding-bottom:2px;}
+  .row-scroll::-webkit-scrollbar{display:none;}
+  .pcard{flex:0 0 auto; width:112px;}
+  .pcard .art{
+    width:112px; height:112px; border-radius:10px;
+    background:linear-gradient(135deg,var(--amber-deep),var(--amber));
+    display:flex; align-items:center; justify-content:center; font-size:26px; position:relative;
+  }
+  .pcard .badge{
+    position:absolute; top:6px; left:6px; background:#17120c; color:var(--amber);
+    font-size:9px; font-weight:700; padding:2px 6px; border-radius:5px;
+  }
+  .pcard .t{font-size:12px; font-weight:600; margin-top:6px;}
+  .pcard .s{font-size:11px; color:var(--muted);}
+
+  .track{
+    display:flex; align-items:center; gap:11px; background:var(--card);
+    border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin-bottom:8px;
+  }
+  .track .num{width:18px; font-size:12px; color:var(--muted); text-align:center;}
+  .track .art{
+    width:40px; height:40px; border-radius:8px;
+    background:linear-gradient(135deg,var(--amber-deep),var(--amber)); flex-shrink:0;
+  }
+  .track .meta{flex:1; min-width:0;}
+  .track .t{font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .track .a{font-size:11.5px; color:var(--muted);}
+  .track .star{background:none; border:none; color:var(--muted); font-size:17px; cursor:pointer;}
+  .track .star.fav{color:var(--amber);}
+  .track .badge-new{font-size:9px; background:var(--green); color:#0d2013; font-weight:700; padding:2px 5px; border-radius:4px; margin-left:6px;}
+
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:14px;}
+  .card h4{font-size:14px; margin-bottom:6px;}
+  .card p{font-size:12.5px; color:var(--muted); line-height:1.5;}
+
+  .toggle-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 0; border-bottom:1px solid var(--line);
+  }
+  .toggle-row:last-child{border-bottom:none;}
+  .toggle-row .label{font-size:13.5px;}
+  .toggle-row .sub{font-size:11px; color:var(--muted); margin-top:2px;}
+  .switch{
+    width:40px; height:23px; background:var(--line); border-radius:999px;
+    position:relative; cursor:pointer; flex-shrink:0;
+  }
+  .switch.on{background:var(--amber);}
+  .switch::after{
+    content:''; position:absolute; top:2px; left:2px; width:19px; height:19px;
+    border-radius:50%; background:var(--text); transition:transform .15s ease;
+  }
+  .switch.on::after{transform:translateX(17px); background:#17120c;}
+
+  .swatches{display:flex; gap:10px; margin:8px 0 4px;}
+  .swatch{width:32px; height:32px; border-radius:50%; border:2px solid transparent; cursor:pointer;}
+  .swatch.selected{border-color:var(--text);}
+
+  select, input[type=range]{width:100%;}
+  select{
+    background:var(--bg); color:var(--text); border:1px solid var(--line);
+    border-radius:8px; padding:9px; font-size:13px;
+  }
+
+  .btn{
+    display:block; width:100%; text-align:center; border:none; border-radius:9px;
+    padding:12px; font-size:13.5px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif;
+  }
+  .btn.primary{background:var(--amber); color:#17120c;}
+  .btn.ghost{background:var(--bg); border:1px solid var(--line); color:var(--text);}
+  .btn.youtube{background:#cc1f1f; color:#fff;}
+  .btn.premium{background:linear-gradient(90deg,#e2841f,#f0b429); color:#17120c;}
+
+  textarea, input[type=text], input[type=tel]{
+    width:100%; background:var(--bg); border:1px solid var(--line); border-radius:8px;
+    color:var(--text); padding:10px; font-size:13px; font-family:'Inter',sans-serif;
+  }
+
+  .bottom-nav{
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:480px; background:#241b12f0; backdrop-filter:blur(6px);
+    border-top:1px solid var(--line); display:flex; z-index:40;
+  }
+  .bottom-nav button{
+    flex:1; background:none; border:none; color:var(--muted); font-size:10px;
+    padding:9px 0 8px; display:flex; flex-direction:column; align-items:center; gap:3px;
+  }
+  .bottom-nav button .ic{font-size:18px;}
+  .bottom-nav button.active{color:var(--amber);}
+
+  .mini-player{
+    position:fixed; bottom:56px; left:50%; transform:translateX(-50%);
+    width:100%; max-width:480px; background:var(--card); border-top:1px solid var(--line);
+    padding:8px 12px; display:flex; align-items:center; gap:10px; z-index:39; cursor:pointer;
+  }
+  .mini-player .art{width:34px; height:34px; border-radius:7px; background:linear-gradient(135deg,var(--amber-deep),var(--amber)); flex-shrink:0;}
+  .mini-player .meta{flex:1; min-width:0;}
+  .mini-player .t{font-size:12.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .mini-player .a{font-size:10.5px; color:var(--muted);}
+  .mini-player .ctrl{background:none; border:none; color:var(--text); font-size:18px;}
+
+  #player-screen{
+    position:fixed; inset:0; z-index:100; background:var(--bg);
+    display:none; flex-direction:column; padding:18px 22px; max-width:480px; margin:0 auto;
+    overflow-y:auto;
+  }
+  #player-screen.active{display:flex;}
+  .player-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:30px;}
+  .player-top button{background:none;border:none;color:var(--text);font-size:20px;}
+  .player-top .heart{color:var(--muted);}
+  .player-top .heart.fav{color:#e2413f;}
+  .vinyl-wrap{display:flex; justify-content:center; margin:10px 0 26px;}
+  .vinyl{
+    width:230px; height:230px; border-radius:50%;
+    background:radial-gradient(circle at center, var(--amber) 0 26%, var(--amber-deep) 27% 100%);
+    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(226,132,31,.25);
+  }
+  .vinyl-inner{width:78px; height:78px; border-radius:50%; background:#3a2a12; display:flex; align-items:center; justify-content:center; font-size:22px;}
+  .player-meta{text-align:center; margin-bottom:20px;}
+  .player-meta .t{font-size:18px; font-weight:700; font-family:'Space Grotesk',sans-serif; line-height:1.3;}
+  .player-meta .a{font-size:13px; color:var(--muted); margin-top:4px;}
+  .p-progress{height:4px; background:var(--line); border-radius:3px; position:relative; margin-bottom:6px;}
+  .p-progress .fill{width:32%; height:100%; background:var(--amber); border-radius:3px; position:relative;}
+  .p-progress .fill::after{content:''; position:absolute; right:-5px; top:-4px; width:12px; height:12px; border-radius:50%; background:var(--amber);}
+  .p-times{display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:24px;}
+  .p-controls{display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;}
+  .p-controls button{background:none; border:none; color:var(--text); font-size:19px;}
+  .p-controls .play-big{
+    background:var(--amber); color:#17120c; width:58px; height:58px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+  }
+  .p-controls .side{color:var(--amber); font-size:16px;}
+  .p-volume{display:flex; align-items:center; gap:10px; margin-bottom:24px;}
+  .p-volume input{accent-color:var(--amber);}
+  .queue-hint{font-size:11.5px; color:var(--muted); text-align:center; margin-bottom:16px;}
+
+  .notif-mock{
+    background:#1c1c1c; border:1px solid #333; border-radius:12px; padding:10px 12px;
+    display:flex; align-items:center; gap:10px; margin:16px 0;
+  }
+  .notif-mock .art{width:36px; height:36px; border-radius:7px; background:linear-gradient(135deg,var(--amber-deep),var(--amber));}
+  .notif-mock .meta{flex:1;}
+  .notif-mock .t{font-size:11.5px; font-weight:600; color:#eee;}
+  .notif-mock .a{font-size:10px; color:#999;}
+  .notif-mock .ctrls{display:flex; gap:10px; color:#eee; font-size:13px;}
+
+  .pill-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
+  .pill{background:var(--bg); border:1px solid var(--line); border-radius:999px; padding:5px 11px; font-size:11px; color:var(--muted);}
+
+  .comment{border-top:1px solid var(--line); padding:10px 0; font-size:12.5px;}
+  .comment .who{font-weight:600; font-size:12px;}
+  .comment .txt{color:var(--muted); margin-top:2px;}
+
+  .ad-banner{
+    background:var(--line); border:1px dashed var(--muted); border-radius:10px;
+    padding:12px; text-align:center; font-size:11px; color:var(--muted); margin-bottom:14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="badge-demo">🎬 MODE DÉMO — pour visualiser les fonctionnalités, rien n'est branché en vrai</div>
+
+<div class="screen active" id="screen-accueil">
+  <div class="top"><h2>FST PRODUCTION</h2><button class="icon-btn" onclick="go('reglages')">⚙️</button></div>
+
+  <div class="hero-artist">
+    <div class="tag">ARTISTE À LA UNE</div>
+    <h3>Floby</h3>
+    <p>18 morceaux disponibles cette semaine</p>
+  </div>
+
+  <div class="section-title">Classement du moment <span class="link">Voir tout</span></div>
+  <div class="row-scroll">
+    <div class="pcard"><div class="art"><span class="badge">#1</span>🎵</div><div class="t">Alcoolisé</div><div class="s">Chily</div></div>
+    <div class="pcard"><div class="art"><span class="badge">#2</span>🎵</div><div class="t">Ewé Yé</div><div class="s">BestaR</div></div>
+    <div class="pcard"><div class="art"><span class="badge">#3</span>🎵</div><div class="t">Nzoto</div><div class="s">Ney Tshims</div></div>
+  </div>
+
+  <div class="section-title">Tes playlists <span class="link">+ Créer</span></div>
+  <div class="row-scroll">
+    <div class="pcard"><div class="art">🎧</div><div class="t">Mes soirées</div><div class="s">12 sons</div></div>
+    <div class="pcard"><div class="art">🚗</div><div class="t">Route Koudougou</div><div class="s">8 sons</div></div>
+  </div>
+
+  <div class="section-title">Nouveautés</div>
+  <div class="track" onclick="openPlayer(this)"><div class="art"></div><div class="meta"><div class="t">Millions Trône <span class="badge-new">Nouveau</span></div><div class="a">Francky Degam</div></div><button class="star">☆</button></div>
+
+  <button class="btn ghost" style="margin-top:6px;" onclick="alert('Lecture aléatoire de tout le catalogue')">🔀 Surprends-moi (lecture aléatoire)</button>
+</div>
+
+<div class="screen" id="screen-chansons">
+  <div class="top"><h2>Chansons</h2></div>
+  <div class="search-bar">🔍 Rechercher un titre ou un artiste (350)</div>
+  <div class="chips">
+    <div class="chip active">Tous</div>
+    <div class="chip">Coupé-décalé</div>
+    <div class="chip">Gospel</div>
+    <div class="chip">Slow</div>
+    <div class="chip">Traditionnel</div>
+    <div class="chip">Afrobeat</div>
+  </div>
+
+  <div class="track" onclick="openPlayer(this)"><div class="num">1</div><div class="art"></div><div class="meta"><div class="t">Alcoolisé <span class="badge-new">Nouveau</span></div><div class="a">Chily</div></div><button class="star fav" onclick="toggleStar(event,this)">★</button></div>
+  <div class="track" onclick="openPlayer(this)"><div class="num">2</div><div class="art"></div><div class="meta"><div class="t">Nzoto feat. Chily</div><div class="a">Ney Tshims</div></div><button class="star" onclick="toggleStar(event,this)">☆</button></div>
+  <div class="track" onclick="openPlayer(this)"><div class="num">3</div><div class="art"></div><div class="meta"><div class="t">Ewé Yé</div><div class="a">BestaR feat. Bayor Ley</div></div><button class="star" onclick="toggleStar(event,this)">☆</button></div>
+  <div class="track" onclick="openPlayer(this)"><div class="num">4</div><div class="art"></div><div class="meta"><div class="t">Run For...</div><div class="a">Paki Chenzu</div></div><button class="star" onclick="toggleStar(event,this)">☆</button></div>
+
+  <div class="card" style="margin-top:14px;">
+    <h4>🎤 Tu ne trouves pas un son ?</h4>
+    <p>Demande-le directement, Francky l'ajoutera au catalogue.</p>
+    <input type="text" placeholder="Nom de l'artiste ou du morceau" style="margin-top:10px;">
+    <button class="btn primary" style="margin-top:8px;">Envoyer la demande</button>
+  </div>
+</div>
+
+<div class="screen" id="screen-favoris">
+  <div class="top"><h2>Favoris</h2></div>
+  <div class="section-title">Écoutés récemment</div>
+  <div class="track"><div class="art"></div><div class="meta"><div class="t">Kadi Yeri</div><div class="a">Sana Fabrice</div></div><div style="font-size:11px;color:var(--muted)">il y a 2h</div></div>
+  <div class="track"><div class="art"></div><div class="meta"><div class="t">Nam Yiri</div><div class="a">Awa Traoré</div></div><div style="font-size:11px;color:var(--muted)">hier</div></div>
+
+  <div class="section-title">Mes favoris ⭐</div>
+  <div class="track"><div class="art"></div><div class="meta"><div class="t">Alcoolisé</div><div class="a">Chily</div></div><button class="star fav">★</button></div>
+
+  <div class="section-title">File d'attente</div>
+  <div class="card">
+    <p style="margin-bottom:8px;">Prochains morceaux à jouer — glisse pour réorganiser</p>
+    <div class="pill-row">
+      <div class="pill">1. Ewé Yé</div>
+      <div class="pill">2. Run For...</div>
+      <div class="pill">3. Nzoto</div>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-reglages">
+  <div class="top"><h2>Réglages</h2></div>
+
+  <div class="section-title">Apparence</div>
+  <div class="card">
+    <div class="toggle-row" style="flex-direction:column; align-items:flex-start;">
+      <div class="label">Couleur d'accent</div>
+      <div class="swatches">
+        <div class="swatch selected" style="background:#e2841f;"></div>
+        <div class="swatch" style="background:#3fae5c;"></div>
+        <div class="swatch" style="background:#4f8ff0;"></div>
+        <div class="swatch" style="background:#e2413f;"></div>
+        <div class="swatch" style="background:#a24fe0;"></div>
+      </div>
+    </div>
+    <div class="toggle-row" style="flex-direction:column; align-items:flex-start;">
+      <div class="label" style="margin-bottom:6px;">Police</div>
+      <select><option>Inter (par défaut)</option><option>Space Grotesk</option><option>Poppins</option></select>
+    </div>
+    <div class="toggle-row">
+      <div><div class="label">Mode sombre / clair auto</div><div class="sub">Suit les réglages du téléphone</div></div>
+      <div class="switch on"></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="label">Fond d'écran personnel</div><div class="sub">background.jpg actuel</div></div>
+      <button class="icon-btn">📷</button>
+    </div>
+  </div>
+
+  <div class="section-title">Lecture</div>
+  <div class="card">
+    <div class="toggle-row" style="flex-direction:column; align-items:flex-start;">
+      <div class="label" style="margin-bottom:6px;">Égaliseur</div>
+      <div class="pill-row"><div class="pill">Normal</div><div class="pill">Voix</div><div class="pill">Basses</div></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="label">Minuterie de sommeil</div><div class="sub">Arrêt auto après 30 min</div></div>
+      <div class="switch"></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="label">Reprise automatique</div><div class="sub">Reprend où tu t'étais arrêté</div></div>
+      <div class="switch on"></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="label">Contrôle par écouteurs</div><div class="sub">Bouton casque = play/pause/suivant</div></div>
+      <div class="switch on"></div>
+    </div>
+  </div>
+
+  <div class="section-title">Permissions</div>
+  <div class="card">
+    <div class="toggle-row"><div class="label">Stockage (téléchargements)</div><div class="switch on"></div></div>
+    <div class="toggle-row"><div class="label">Notifications</div><div class="switch on"></div></div>
+    <div class="toggle-row"><div class="label">Lecture en arrière-plan</div><div class="switch on"></div></div>
+  </div>
+
+  <div class="section-title">Général</div>
+  <div class="card">
+    <div class="toggle-row" style="flex-direction:column; align-items:flex-start;">
+      <div class="label" style="margin-bottom:6px;">Langue</div>
+      <select><option>Français</option><option>Mooré</option><option>Dioula</option></select>
+    </div>
+    <div class="toggle-row" style="flex-direction:column; align-items:flex-start;">
+      <div class="label" style="margin-bottom:6px;">Taille du texte</div>
+      <input type="range" min="0" max="2" value="1">
+    </div>
+    <div class="toggle-row">
+      <div><div class="label">Mode économie de données</div><div class="sub">Désactive les miniatures</div></div>
+      <div class="switch"></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="label">Sauvegarde en ligne</div><div class="sub">Favoris et playlists protégés</div></div>
+      <div class="switch"></div>
+    </div>
+  </div>
+
+  <button class="btn premium" onclick="go('premium')">⭐ Passer Premium</button>
+  <div style="height:10px;"></div>
+  <button class="btn ghost" onclick="alert('Partage le lien de l application FST PRODUCTION')">📤 Partager application</button>
+  <div style="height:10px;"></div>
+  <button class="btn ghost" onclick="alert('Merci pour ton soutien 🙏')">💛 Soutenir FST PRODUCTION (don libre)</button>
+</div>
+
+<div class="screen" id="screen-premium">
+  <div class="top"><h2
